@@ -16,12 +16,11 @@ import java.util.List;
 public class CountryLanguageRepositoryImpl implements CountryLanguageRepository {
 
     @Autowired
-    private DataSource dataSource;
+    JdbcTemplate jdbcTemplate;
 
     @Override
     public List<CountryLanguage> getCountryLanguage(String countryCode) {
         String sqlQuery = "Select CountryCode, Language, IsOfficial, Percentage From countryLanguage Where countryCode = ?";
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         return jdbcTemplate.query(sqlQuery, new Object[]{countryCode}, new RowMapper<CountryLanguage>() {
             @Override
             public CountryLanguage mapRow(ResultSet rs, int i) throws SQLException {
